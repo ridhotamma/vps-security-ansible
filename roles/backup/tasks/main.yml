@@ -1,0 +1,13 @@
+---
+- name: Create backup script
+  copy:
+    src: backup.sh
+    dest: /usr/local/bin/backup.sh
+    mode: '0755'
+
+- name: Schedule backup with cron
+  cron:
+    name: "Daily Backup"
+    minute: "0"
+    hour: "2"
+    job: "/usr/local/bin/backup.sh"

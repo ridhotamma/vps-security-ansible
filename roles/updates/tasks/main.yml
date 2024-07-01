@@ -1,0 +1,15 @@
+---
+- name: Update and upgrade apt packages
+  apt:
+    upgrade: dist
+    update_cache: yes
+
+- name: Install unattended-upgrades
+  apt:
+    name: unattended-upgrades
+    state: present
+
+- name: Configure unattended-upgrades
+  copy:
+    src: unattended-upgrades-config
+    dest: /etc/apt/apt.conf.d/50unattended-upgrades

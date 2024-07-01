@@ -1,0 +1,31 @@
+---
+- name: Install libpam-pwquality
+  apt:
+    name: libpam-pwquality
+    state: present
+
+- name: Enforce strong passwords
+  lineinfile:
+    path: /etc/pam.d/common-password
+    line: "password requisite pam_pwquality.so retry=3 minlen=12 dcredit=-1 ucredit=-1 ocredit=-1 lcredit=-1"
+
+- name: Install Google Authenticator
+  apt:
+    name: libpam-google-authenticator
+    state: present
+
+- name: Configure Google Authenticator
+  lineinfile:
+    path: /etc/pam.d/sshd
+    line: "auth required pam_google_authenticator.so"
+
+- name: Enable ChallengeResponseAuthentication in SSH
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^#?ChallengeResponseAuthentication'
+    line: 'ChallengeResponseAuthentication yes'
+
+- name: Restart SSH service
+  service:
+    name: ssh
+    state: restarted

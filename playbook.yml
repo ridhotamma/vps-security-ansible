@@ -1,0 +1,11 @@
+---
+- name: Secure VPS Server
+  hosts: vps_servers
+  become: yes
+  roles:
+    - firewall
+    - updates
+    - ids
+    - auth
+    - logging
+    - backup
